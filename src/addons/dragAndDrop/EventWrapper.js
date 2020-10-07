@@ -87,11 +87,6 @@ class EventWrapper extends React.Component {
       ? !!get(event, draggableAccessor)
       : true
 
-    /* Event is not draggable, no need to wrap it */
-    if (!isDraggable) {
-      return children
-    }
-
     /*
      * The resizability of events depends on whether they are
      * allDay events and how they are displayed.
@@ -124,9 +119,11 @@ class EventWrapper extends React.Component {
        * rather than wrap the Event here as the latter approach
        * would lose the positioning.
        */
-      const newProps = {
-        onMouseDown: this.handleStartDragging,
-        onTouchStart: this.handleStartDragging,
+      const newProps = {}
+
+      if (isDraggable) {
+        newProps.onMouseDown = this.handleStartDragging
+        newProps.onTouchStart = this.handleStartDragging
       }
 
       if (isResizable) {
